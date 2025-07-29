@@ -10,5 +10,9 @@
   {
     "name": "壁纸API",
     "url": "https://api.hbzmy.com"
+  },
+  {
+    "name": "考试系统",
+    "url": "https://ks.hbzmy.com"
   }
 ]
