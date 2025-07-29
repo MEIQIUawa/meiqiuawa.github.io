@@ -6,5 +6,9 @@
   {
     "name": "bilibili",
     "url": "https://space.bilibili.com/1302620863"
+  },
+  {
+    "name": "壁纸API",
+    "url": "https://api.hbzmy.com"
   }
 ]
