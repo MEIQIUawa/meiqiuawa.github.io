@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechNova - 导航</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:#0a0a0a;color:#fff;height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    /* 导航栏 */
+    nav{position:fixed;top:0;left:0;right:0;padding:20px 40px;z-index:999;background:rgba(0,0,0,.7);backdrop-filter:blur(10px)}
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center}
+    .logo{font-size:28px;font-weight:bold;background:linear-gradient(45deg,#00f5ff,#ff00ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:glow 2s ease-in-out infinite alternate}
+    @keyframes glow{from{filter:brightness(1)}to{filter:brightness(1.5)}}
+    /* 主内容 */
+    main{flex:1;display:flex;align-items:center;justify-content:center;padding:120px 30px 60px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;width:100%;max-width:900px}
+    .card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:40px 20px;text-align:center;font-size:1.3rem;font-weight:600;cursor:pointer;transition:all .4s ease;position:relative;overflow:hidden}
+    .card:hover{transform:translateY(-8px) scale(1.05);border-color:#00f5ff;box-shadow:0 10px 30px rgba(0,245,255,.3)}
+    /* 粒子背景 */
+    #particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav>
+    <div class="nav-inner">
+      <div class="logo">TechNova</div>
+    </div>
+  </nav>
+
+  <!-- 主内容 -->
+  <main>
+    <div class="grid" id="siteGrid">
+      <!-- JS 动态填充 -->
+    </div>
+  </main>
+
+  <canvas id="particles"></canvas>
+
+  <script>
+  /* 1. 拉取站点列表并渲染 */
+  fetch('url.json')
+    .then(r => r.json())
+    .then(list => {
+      const grid = document.getElementById('siteGrid');
+      list.forEach(({name, url}) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.textContent = name;
+        card.addEventListener('click', () => window.open(url, '_blank'));
+        grid.appendChild(card);
+      });
+    })
+    .catch(() => {
+      document.getElementById('siteGrid').innerHTML =
+        '<p style="color:#ff4757">加载 url.json 失败，请检查文件是否存在。</p>';
+    });
+
+  /* 2. 粒子背景 */
+  const cvs = document.getElementById('particles');
+  const ctx = cvs.getContext('2d');
+  function resize(){ cvs.width = innerWidth; cvs.height = innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  const pts = Array.from({length: 100}, () => ({
+    x: Math.random() * innerWidth,
+    y: Math.random() * innerHeight,
+    vx: (Math.random() - .5) * .4,
+    vy: (Math.random() - .5) * .4,
+    r: Math.random() * 1.5 + .5
+  }));
+  function animate(){
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+    pts.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if(p.x < 0 || p.x > innerWidth) p.vx *= -1;
+      if(p.y < 0 || p.y > innerHeight) p.vy *= -1;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle = 'rgba(0,245,255,.6)'; ctx.fill();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+  </script>
+</body>
+</html>
