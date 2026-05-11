@@ -1,26 +1,10 @@
 [
   {
-    "name": "煤灰博客",
-    "url": "https://blog.hbzmy.com"
-  },
-  {
     "name": "bilibili",
     "url": "https://space.bilibili.com/1302620863"
   },
   {
     "name": "壁纸API",
-    "url": "https://api.hbzmy.com"
-  },
-  {
-    "name": "考试系统",
-    "url": "https://ks.hbzmy.com"
-  },
-  {
-    "name": "实训平台(关停)",
-    "url": "https://example.com/"
-  },
-  {
-    "name": "alist网盘",
-    "url": "https://alist.hbzmy.com/"
+    "url": "https://papi.meiqiuit.wiki"
   }
 ]
